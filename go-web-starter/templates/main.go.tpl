@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	"github.com/gin-gonic/gin"
@@ -146,22 +147,26 @@ func runServer(c *cli.Context) error {
 		}
 	}
 
-	// 静态文件服务
+	// 静态文件服务（前端 UI）
 	uiDistFS, err := fs.Sub(uiFS, "ui/dist")
 	if err != nil {
 		return err
 	}
+	indexHTML, err := uiFS.ReadFile("ui/dist/index.html")
+	if err != nil {
+		return fmt.Errorf("failed to read index.html: %w", err)
+	}
 	fileServer := http.FileServer(http.FS(uiDistFS))
-	r.GET("/", func(c *gin.Context) {
-		c.Header("Content-Type", "text/html; charset=utf-8")
-		data, err := uiFS.ReadFile("ui/dist/index.html")
-		if err != nil {
-			c.String(http.StatusInternalServerError, "Error loading index.html")
+	r.GET("/assets/*filepath", gin.WrapH(fileServer))
+	r.NoRoute(func(c *gin.Context) {
+		f, err := uiDistFS.Open(strings.TrimPrefix(c.Request.URL.Path, "/"))
+		if err == nil {
+			f.Close()
+			fileServer.ServeHTTP(c.Writer, c.Request)
 			return
 		}
-		c.Data(http.StatusOK, "text/html; charset=utf-8", data)
+		c.Data(http.StatusOK, "text/html; charset=utf-8", indexHTML)
 	})
-	r.NoRoute(gin.WrapH(fileServer))
 
 	// 启动服务
 	host := c.String("host")

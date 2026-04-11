@@ -1,7 +1,7 @@
 ---
 name: go-web-starter
 description: This skill should be used when the user asks to "create a Go web project", "init Go web service", "bootstrap Gin project", "create Go API server", "setup Go backend with SQLite", or needs to set up a production-ready Go web application with Gin, SQLite, CLI flags, slog logging, and graceful shutdown.
-version: 1.0.0
+version: 1.1.0
 ---
 
 # Go Web Starter
@@ -16,6 +16,12 @@ version: 1.0.0
 
 - `module`: Go module 路径，如 github.com/user/project
 - `name`: 项目名称
+
+## 可选参数
+
+- `ui-type`: 前端类型，可选值：
+  - `none`（默认）：纯 Go 后端，不含前端
+  - `react`：集成 React + Vite + DaisyUI + TanStack Query 前端
 
 ## 必须包含的组件
 
@@ -50,25 +56,61 @@ version: 1.0.0
 - 关闭顺序：server stop → database.Close()
 
 ### 7. 项目结构
+
+#### ui-type=none（默认）
 ```
 {{name}}/
-├── main.go              # CLI、依赖注入、优雅关闭
+├── main.go
 ├── go.mod
 ├── .env.example
 ├── middleware/
 │   ├── cors.go
 │   ├── logging.go
 │   └── auth.go
-├── handlers/            # HTTP 处理器层
+├── handlers/
 ├── internal/
-│   ├── config/          # 配置管理
-│   ├── database/        # SQLite 连接
-│   ├── repository/      # 数据模型 + CRUD
-│   └── services/        # 业务逻辑
-└── ui/                  # 前端静态资源（可选）
+│   ├── database/
+│   ├── repository/
+│   └── services/
 ```
 
-### 8. 分层依赖
+#### ui-type=react
+```
+{{name}}/
+├── main.go              # 含 embed ui/dist
+├── go.mod
+├── .env.example
+├── middleware/
+├── handlers/
+├── internal/
+│   ├── database/
+│   ├── repository/
+│   └── services/
+└── ui/                  # React 前端
+    ├── package.json
+    ├── vite.config.js
+    ├── index.html
+    └── src/
+        ├── main.jsx
+        ├── App.jsx
+        ├── app.css
+        ├── api.js
+        └── pages/
+            ├── Login.jsx
+            └── Home.jsx
+```
+
+### 8. ui-type=react 时的前端规范
+- 技术栈：React 19 + Vite 6 + Tailwind CSS v4 + DaisyUI v5 + TanStack Query v5 + React Router v7
+- 包管理器：pnpm
+- `app.css` 仅含：`@import "tailwindcss";` 和 `@plugin "daisyui";`
+- `vite.config.js` 配置 `/api` 代理到后端端口
+- `api.js` 封装带 X-Admin-Key header 的 fetch 工具函数
+- `App.jsx` 包含路由、auth 校验逻辑（调用 /api/auth/validate）
+- `Login.jsx` 使用 DaisyUI card/input/btn 组件
+- `Home.jsx` 使用 useQuery 获取数据，使用 DaisyUI 展示
+
+### 9. 分层依赖
 - Handler → Service → Repository → database.Engine
 - 单向依赖，禁止跨层调用
 
