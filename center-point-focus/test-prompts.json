@@ -1,0 +1,66 @@
+{
+  "skill": "center-point-focus",
+  "version": "0.1.0",
+  "source_book": "《写给大家看的设计书》 — Robin Williams",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我做了一个活动海报，别人说不知道看哪里",
+      "expected_behavior": "应激活 center-point-focus, 诊断缺少视觉中心点, 确定核心信息并强化对比",
+      "notes": "正面场景: 缺少中心点"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我的 PPT 每页都放了很多内容，所有文字一样大，感觉没有重点",
+      "expected_behavior": "应激活本 skill, 帮用户识别每页的中心点, 降低非重点元素的视觉权重",
+      "notes": "正面场景: 内容平铺无层次"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "这个产品页面有 3 个按钮都是同样的粗体红色，用户不知道该点哪个",
+      "expected_behavior": "应激活本 skill, 诊断多个'伪中心点'冲突, 确定唯一的行动号召按钮",
+      "notes": "正面场景: 多个竞争元素"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "我写了一篇文章要配图，选了几张图不知道哪张做主打图",
+      "expected_behavior": "应激活本 skill, 帮用户选择最重要的图片作为中心点, 其他图片缩小或降权",
+      "notes": "正面场景: 多图排版"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "这个字体太粗了，有没有更细的版本",
+      "expected_behavior": "不应激活本 skill, 这是字体选择问题",
+      "notes": "诱饵: 非设计场景"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我这个页面看起来有点乱，能帮我用 CRAP 原则看看吗",
+      "expected_behavior": "不应激活本 skill, 应激活 crap-four-principles",
+      "notes": "跨 skill 混淆诱饵: 用户明确提到 CRAP, 应触发 CRAP 四原则 skill"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我做的是极简风格的设计，故意想让所有元素平等",
+      "expected_behavior": "不激活本 skill——如果用户是有意选择无中心点的设计风格, 应尊重设计选择",
+      "notes": "边界: 有意设计的无中心点"
+    },
+    {
+      "id": "edge-02",
+      "type": "edge_case",
+      "prompt": "我在写一本小说，封面已经设计好了，内页要怎么排版",
+      "expected_behavior": "可部分激活本 skill 但需注意: 小说内页(正文)不需要视觉中心点, 需要的是沉浸式阅读体验",
+      "notes": "边界: 正文排版不需要中心点"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "4 should_trigger + 2 should_not_trigger(含1跨skill) + 2 edge_case"
+}

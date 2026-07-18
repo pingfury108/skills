@@ -1,0 +1,73 @@
+{
+  "skill": "pro-type-rules",
+  "version": "0.1.0",
+  "source_book": "《写给大家看的设计书》 — Robin Williams",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我在写简历，想知道标点符号和格式有什么注意的",
+      "expected_behavior": "应激活 pro-type-rules, 逐条检查: 一个空格/印刷引号/不用下划线/项目符号等",
+      "notes": "正面场景: 排版细节检查"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "Word 里怎么打弯引号而不是直引号",
+      "expected_behavior": "应激活本 skill, 给出印刷引号的输入方法和检查方式",
+      "notes": "正面场景: 具体排版问题"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我们公司的报告一直用下划线强调标题，这样对吗",
+      "expected_behavior": "应激活本 skill, 解释下划线是打字机遗迹, 建议改为粗体/斜体/更大字号",
+      "notes": "正面场景: 纠正错误习惯"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "我写了一份新闻简报，想检查排版是否专业",
+      "expected_behavior": "应激活本 skill, 全面检查 9 条规则是否遵守",
+      "notes": "正面场景: 完整性检查"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我的传单看起来太平均了，怎么让标题更突出",
+      "expected_behavior": "不应激活本 skill, 应激活 center-point-focus 或 crap-four-principles",
+      "notes": "跨 skill 混淆诱饵: 层次/对比问题应触发中心点或 CRAP skill"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "这个页面的红色和绿色搭配好奇怪",
+      "expected_behavior": "不应激活本 skill, 应激活 color-wheel-scheme",
+      "notes": "诱饵: 颜色配比问题"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "type": "should_not_trigger",
+      "prompt": "我在写代码，要不要在分号后面加空格",
+      "expected_behavior": "不应激活本 skill——代码排版规则不同",
+      "notes": "诱饵: 代码场景"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我朋友说现在都用两个空格，很标准",
+      "expected_behavior": "激活本 skill 但需有礼有节地解释: 两个空格是打字机时代的习惯, 现代排版标准是一个空格",
+      "notes": "边界: 用户可能对规则有固有认知"
+    },
+    {
+      "id": "edge-02",
+      "type": "edge_case",
+      "prompt": "我的海报设计中全部用了大写字母，故意这样的",
+      "expected_behavior": "不修改全大写——如果用户是有意为之(设计选择), 跳过此条规则。但需确认用户是否能说出理由。",
+      "notes": "边界: 有意打破规则"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "4 should_trigger + 3 should_not_trigger(含1跨skill) + 2 edge_case"
+}

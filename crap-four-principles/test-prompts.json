@@ -1,0 +1,66 @@
+{
+  "skill": "crap-four-principles",
+  "version": "0.1.0",
+  "source_book": "《写给大家看的设计书》 — Robin Williams",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "帮我设计一个传单，我觉得我做的看起来不够专业，但说不上哪里不对",
+      "expected_behavior": "应激活 crap-four-principles, 按 E 段五步法从亲密性开始逐一检查页面",
+      "notes": "正面场景: 用户感觉设计不专业但说不清问题"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "这个 PPT 看起来有点乱，怎么改进排版？",
+      "expected_behavior": "应激活 crap-four-principles, 从对齐和亲密性维度诊断",
+      "notes": "正面场景: 排版乱(对齐/亲密性问题)"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我写了一份简历，看起来总觉得哪里不对，帮我看看排版",
+      "expected_behavior": "应激活 crap-four-principles, 依次检查四个维度",
+      "notes": "正面场景: 简历排版诊断"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "我收到一个产品宣传页的设计稿，想请人 review 一下再发给客户",
+      "expected_behavior": "应激活 crap-four-principles, 作为评审框架使用",
+      "notes": "正面场景: 评审他人作品"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "帮我查一下这个 API 的返回值格式",
+      "expected_behavior": "不应激活本 skill, 因为这是纯信息查询",
+      "notes": "诱饵: 非设计场景"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "这两种字体放在一起感觉怪怪的，帮我看看",
+      "expected_behavior": "不应激活本 skill, 应激活 type-contrast-six-dimensions",
+      "notes": "跨 skill 混淆诱饵: 字体搭配问题应触发射线对比 skill"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "帮我设计一个婚礼邀请函，想要庄重正式的感觉",
+      "expected_behavior": "可考虑激活本 skill, 但需注意居中对齐和有意的协调设计在此场景下是合适的选择",
+      "notes": "边界: 需要设计但涉及‘打破规则’的场景"
+    },
+    {
+      "id": "edge-02",
+      "type": "edge_case",
+      "prompt": "我有一份法律文档，内容很多，怎么排版更清晰",
+      "expected_behavior": "可以激活本 skill 但需注意边界: 功能性文档优先清晰而非视觉冲击, 亲密性和对齐比对比更优先",
+      "notes": "边界: 功能性文档场景"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "4 should_trigger + 2 should_not_trigger(含1跨skill) + 2 edge_case"
+}

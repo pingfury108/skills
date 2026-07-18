@@ -1,0 +1,66 @@
+{
+  "skill": "color-wheel-scheme",
+  "version": "0.1.0",
+  "source_book": "《写给大家看的设计书》 — Robin Williams",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我要做一个环保主题的海报，用什么颜色好",
+      "expected_behavior": "应激活 color-wheel-scheme, 推荐使用类似色(绿色系+蓝绿), 搭配少量互补色(红色)做强调",
+      "notes": "正面场景: 从零选择配色"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "这个页面颜色搭配看起来不舒服，帮我看看",
+      "expected_behavior": "应激活本 skill, 检查: 1.色质是否过于接近 2.冷暖是否失衡 3.是否用了太多纯色调",
+      "notes": "正面场景: 颜色诊断"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我的 logo 是蓝色，网站主色想搭什么颜色比较好",
+      "expected_behavior": "应激活本 skill, 从蓝色出发给出配色方案选择: 类似色(蓝+蓝绿)、互补色(橙色)、或单色(蓝的亮暗)",
+      "notes": "正面场景: 从已有颜色出发"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "我用红色和绿色搭配，看起来很圣诞，怎么改",
+      "expected_behavior": "应激活本 skill, 建议使用红和绿的暗色(暗红+墨绿)而非纯色",
+      "notes": "正面场景: 解决具体配色问题"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "这个页面所有元素都被挤在一起了，怎么改",
+      "expected_behavior": "不应激活本 skill, 应激活 crap-four-principles",
+      "notes": "跨 skill 混淆诱饵: 布局问题应触发 CRAP"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "帮我写一段 Python 代码爬取网页数据",
+      "expected_behavior": "不应激活本 skill, 这是编程任务",
+      "notes": "诱饵: 非设计场景"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我做一份 Word 文档，需要彩色但公司只能黑白打印",
+      "expected_behavior": "不激活本 skill——黑白打印不需要配色方案, 应关注字体对比(灰度)",
+      "notes": "边界: 黑白打印场景"
+    },
+    {
+      "id": "edge-02",
+      "type": "edge_case",
+      "prompt": "我老板说'把所有颜色都用上'，怎么给他做配色",
+      "expected_behavior": "可激活本 skill 但需解释: 过多颜色会没有重点。推荐使用一种色轮关系(如三色组)+亮暗扩展, 控制为 3-4 种颜色",
+      "notes": "边界: 不合理需求的引导"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "4 should_trigger + 2 should_not_trigger(含1跨skill) + 2 edge_case"
+}

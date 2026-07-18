@@ -1,0 +1,66 @@
+{
+  "skill": "type-contrast-six-dimensions",
+  "version": "0.1.0",
+  "source_book": "《写给大家看的设计书》 — Robin Williams",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "这两种字体放在一起感觉怪怪的，帮我看看",
+      "expected_behavior": "应激活 type-contrast-six-dimensions, 先识别字体类别, 检查是否存在同类共存冲突, 给出替换建议",
+      "notes": "正面场景: 字体冲突诊断"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "帮我推荐一个中文字体的搭配方案，做 PPT 用",
+      "expected_behavior": "应激活本 skill, 参考'衬线+无衬线'的搭配逻辑推荐中文字体组合",
+      "notes": "正面场景: 字体搭配推荐"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我用了两种衬线字体，但看起来很奇怪，这是为什么",
+      "expected_behavior": "应激活本 skill, 诊断: 同类别字体结构相似导致的冲突, 建议替换为另一种类别",
+      "notes": "正面场景: 具体冲突问题"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "我想让我的 newsletter 标题更醒目，正文用 Arial，标题用什么好",
+      "expected_behavior": "应激活本 skill, 推荐从不同类别(如粗衬线体)中选择与无衬线体形成结构和粗细对比的字体",
+      "notes": "正面场景: 字体选择建议"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "这个页面上所有元素都居中，感觉太乏味了怎么办",
+      "expected_behavior": "不应激活本 skill, 应激活 crap-four-principles 或 center-point-focus",
+      "notes": "跨 skill 混淆诱饵: 对齐/布局问题应触发 CRAP 或中心点 skill"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "帮我查查 'serif' 这个词的来源",
+      "expected_behavior": "不应激活本 skill, 这是纯知识查询",
+      "notes": "诱饵: 非设计场景"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我只有一个字体可以用(公司规定的品牌字体)，但想让标题和正文看起来有区分",
+      "expected_behavior": "可激活本 skill, 但不应推荐新字体; 应使用同一字体系列中的不同成员(粗细/大小/倾斜)制造对比",
+      "notes": "边界: 只有一种字体可用时的变通方案"
+    },
+    {
+      "id": "edge-02",
+      "type": "edge_case",
+      "prompt": "我做一个代码展示的文档，用等宽字体，还需要搭配吗",
+      "expected_behavior": "不激活本 skill——代码文档使用等宽字体是功能需求, 不属于本 skill 的搭配场景",
+      "notes": "边界: 等宽字体/代码场景"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "4 should_trigger + 2 should_not_trigger(含1跨skill) + 2 edge_case"
+}
