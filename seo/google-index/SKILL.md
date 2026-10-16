@@ -91,7 +91,7 @@ related_skills:
 排查前先运行（覆盖 P0/P1 可自动化的 7 项，纯标准库无依赖）：
 
 ```bash
-python3 <skill目录>/../scripts/check_index.py https://目标页面URL
+python3 <skill目录>/scripts/check_index.py https://目标页面URL
 ```
 
 脚本每项输出 ✅/❌，失败项直接标注路由到哪个子 skill。GSC 相关步骤需手动完成（脚本末尾有清单）。
